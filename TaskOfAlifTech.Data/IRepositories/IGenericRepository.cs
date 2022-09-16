@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace TaskForAlifTech.Data.IRepositories
+namespace TasOfAlifTech.Data.IRepositories
 {
     public interface IGenericRepository<T> where T : class
     {

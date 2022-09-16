@@ -1,7 +1,7 @@
-﻿using TaskForAlifTech.Domain.Commons;
-using TaskForAlifTech.Domain.Enums;
+﻿using TaskOfAlifTech.Domain.Commons;
+using TaskOfAlifTech.Domain.Enums;
 
-namespace TaskForAlifTech.Domain.Entities.Users
+namespace TaskOfAlifTech.Domain.Entities.Users
 {
     public class User : Auditable<long>
     {
@@ -10,7 +10,7 @@ namespace TaskForAlifTech.Domain.Entities.Users
         public string Login { get; set; }
         public string Password { get; set; }
 
-        public UserStatus Status { get; set; }
-        public ItemState State { get; set; }
+        public UserStatus? Status { get; set; } = UserStatus.Identified;
+        public ItemState? State { get; set; } = ItemState.Created;
     }
 }

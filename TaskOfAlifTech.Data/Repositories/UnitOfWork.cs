@@ -1,9 +1,9 @@
-﻿using System.Net.Mail;
-using TaskForAlifTech.Data.DbContexts;
-using TaskForAlifTech.Data.IRepositories;
-using TaskForAlifTech.Domain.Entities.Users;
+﻿using TaskOfAlifTech.Domain.Entities.Attachments;
+using TaskOfAlifTech.Domain.Entities.Users;
+using TasOfAlifTech.Data.DbContexts;
+using TasOfAlifTech.Data.IRepositories;
 
-namespace TaskForAlifTech.Data.Repositories
+namespace TasOfAlifTech.Data.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {

@@ -1,6 +1,6 @@
-﻿using TaskForAlifTech.Domain.Commons;
+﻿using TaskOfAlifTech.Domain.Commons;
 
-namespace TaskForAlifTech.Domain.Entities.Attachments
+namespace TaskOfAlifTech.Domain.Entities.Attachments
 {
     public class Attachment : Auditable<long>
     {

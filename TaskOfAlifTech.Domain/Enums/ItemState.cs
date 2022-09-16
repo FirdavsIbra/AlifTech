@@ -1,4 +1,4 @@
-﻿namespace TaskForAlifTech.Domain.Enums
+﻿namespace TaskOfAlifTech.Domain.Enums
 {
     public enum ItemState
     {

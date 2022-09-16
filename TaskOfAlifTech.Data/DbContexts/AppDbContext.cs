@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskForAlifTech.Domain.Entities.Attachments;
-using TaskForAlifTech.Domain.Entities.Users;
+using TaskOfAlifTech.Domain.Entities.Attachments;
+using TaskOfAlifTech.Domain.Entities.Users;
 
-namespace TaskForAlifTech.Data.DbContexts
+namespace TasOfAlifTech.Data.DbContexts
 {
     public class AppDbContext : DbContext
     {

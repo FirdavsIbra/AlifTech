@@ -1,4 +1,4 @@
-﻿namespace TaskForAlifTech.Domain.Configurations
+﻿namespace TaskOfAlifTech.Domain.Configurations
 {
     public class PaginationParams
     {

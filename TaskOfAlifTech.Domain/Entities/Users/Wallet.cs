@@ -1,6 +1,6 @@
-﻿using TaskForAlifTech.Domain.Commons;
+﻿using TaskOfAlifTech.Domain.Commons;
 
-namespace TaskForAlifTech.Domain.Entities.Users
+namespace TaskOfAlifTech.Domain.Entities.Users
 {
     public class Wallet : Auditable<long>
     {

@@ -1,7 +1,7 @@
-﻿using System.Net.Mail;
-using TaskForAlifTech.Domain.Entities.Users;
+﻿using TaskOfAlifTech.Domain.Entities.Attachments;
+using TaskOfAlifTech.Domain.Entities.Users;
 
-namespace TaskForAlifTech.Data.IRepositories
+namespace TasOfAlifTech.Data.IRepositories
 {
     public interface IUnitOfWork : IDisposable
     {

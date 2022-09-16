@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using TaskForAlifTech.Data.DbContexts;
-using TaskForAlifTech.Data.IRepositories;
+using TasOfAlifTech.Data.DbContexts;
+using TasOfAlifTech.Data.IRepositories;
 
-namespace TaskForAlifTech.Data.Repositories
+namespace TasOfAlifTech.Data.Repositories
 {
 #pragma warning disable
     public class GenericRepository<T> : IGenericRepository<T> where T : class
