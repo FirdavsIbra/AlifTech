@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TaskOfAlifTech.Service.DTOs.UserForCreation
+namespace TaskOfAlifTech.Service.DTOs.Users
 {
     public class UserForLoginDto
     {

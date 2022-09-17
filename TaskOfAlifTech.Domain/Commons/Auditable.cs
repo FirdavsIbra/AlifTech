@@ -1,9 +1,16 @@
-﻿namespace TaskOfAlifTech.Domain.Commons
+﻿using Newtonsoft.Json;
+
+
+namespace TaskOfAlifTech.Domain.Commons
 {
-    public class Auditable<T>
+    public abstract class Auditable
     {
-        public T Id { get; set; }
+        public long Id { get; set; }
+
+        [JsonIgnore]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        
+        [JsonIgnore]
         public DateTime? UpdatedAt { get; set; }
     }
 }

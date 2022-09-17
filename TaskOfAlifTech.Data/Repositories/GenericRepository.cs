@@ -17,6 +17,10 @@ namespace TasOfAlifTech.Data.Repositories
             _dbSet = _dbContext.Set<T>();
         }
 
+        public Task<bool> AnyAsync(Expression<Func<T, bool>> expression)
+            => _dbSet.AnyAsync(expression);
+        
+
         public async Task<T> CreateAsync(T entity)
         {
             var entry = await _dbSet.AddAsync(entity);
@@ -24,39 +28,27 @@ namespace TasOfAlifTech.Data.Repositories
             return entry.Entity;
         }
 
-        public async Task<bool> DeleteAsync(Expression<Func<T, bool>> expression)
-        {
-            var entity = await _dbSet.FirstOrDefaultAsync(expression);
+        public void DeleteRange(IEnumerable<T> entities)
+            => _dbSet.RemoveRange(entities);
+        
+        public Task<T> GetAsync(Expression<Func<T, bool>> expression) 
+            => _dbSet.FirstOrDefaultAsync(expression);
 
-            if (entity == null)
-                return false;
+        public T Update(T entity) 
+            => _dbSet.Update(entity).Entity;
 
-            _dbSet.Remove(entity);
-
-            return true;
-        }
-
-        public IQueryable<T> GetAllAsync(Expression<Func<T, bool>> expression = null, string include = null, bool isTracking = true)
+        public IQueryable<T> Where(Expression<Func<T, bool>> expression = null, bool isTracking = true, string[]? includes = null)
         {
             IQueryable<T> query = expression is null ? _dbSet : _dbSet.Where(expression);
 
-            if (!string.IsNullOrEmpty(include))
-                query = query.Include(include);
+            if (includes is not null)
+                foreach (var include in includes)
+                    query = query.Include(include);
 
             if (!isTracking)
                 query = query.AsNoTracking();
 
             return query;
-        }
-
-        public Task<T> GetAsync(Expression<Func<T, bool>> expression)
-        {
-            return _dbSet.FirstOrDefaultAsync(expression);
-        }
-
-        public async Task<T> UpdateAsync(T entity)
-        {
-            return _dbSet.Update(entity).Entity;
         }
     }
 }

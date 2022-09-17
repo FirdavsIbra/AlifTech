@@ -2,7 +2,26 @@
 {
     public class PaginationParams
     {
-        public int PageSize { get; set; }
-        public int PageIndex { get; set; }
+        private const uint maxPageSize = 20;
+        public PaginationParams()
+        {
+
+        }
+
+        private uint pageSize;
+
+        public uint PageSize
+        {   
+            get { return pageSize; }
+            set { pageSize = value > maxPageSize ? maxPageSize : value; }
+        }
+
+        private uint pageIndex;
+
+        public uint PageIndex
+        {
+            get { return pageIndex; }
+            set { pageIndex = value; }
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskOfAlifTech.Domain.Entities.Attachments;
 using TaskOfAlifTech.Domain.Entities.Users;
+using TaskOfAlifTech.Domain.Entities.Transactions;
 
 namespace TasOfAlifTech.Data.DbContexts
 {
@@ -14,6 +14,6 @@ namespace TasOfAlifTech.Data.DbContexts
 
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Wallet> Wallets { get; set; }
-        public virtual DbSet<Attachment> Attachments { get; set; }
-    }
+        public virtual DbSet<Transaction> Transactions { get; set; }
+    }   
 }

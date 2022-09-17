@@ -13,8 +13,8 @@ namespace TaskOfAlifTech.Api.Extensions
         public static void AddCustomServices(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IAttachmentService, AttachmentService>();
+            services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();  
         }
 
         public static void AddJwtService(this IServiceCollection services, IConfiguration configuration)

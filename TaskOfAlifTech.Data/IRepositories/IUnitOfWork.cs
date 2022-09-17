@@ -1,5 +1,5 @@
-﻿using TaskOfAlifTech.Domain.Entities.Attachments;
-using TaskOfAlifTech.Domain.Entities.Users;
+﻿using TaskOfAlifTech.Domain.Entities.Users;
+using TaskOfAlifTech.Domain.Entities.Transactions;
 
 namespace TasOfAlifTech.Data.IRepositories
 {
@@ -7,7 +7,7 @@ namespace TasOfAlifTech.Data.IRepositories
     {
         IGenericRepository<User> Users { get; }
         IGenericRepository<Wallet> Wallets { get; }
-        IGenericRepository<Attachment> Attachments { get; }
+        IGenericRepository<Transaction> Transactions { get; }
 
         Task SaveChangesAsync();
     }

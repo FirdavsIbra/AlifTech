@@ -30,8 +30,10 @@ namespace TaskOfAlifTech.Service.Services
         {
             var user = await unitOfWork.Users.GetAsync(x =>
                 x.Login == login && x.Password == password && x.State != ItemState.Deleted);
+
             if (user is null)
                 throw new AppException(400, "Login or password is incorrect");
+
 
             // Else we generate JSON Web Token
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -40,7 +42,7 @@ namespace TaskOfAlifTech.Service.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                new Claim("Id", user.Id.ToString())
+                    new Claim("X-UserId", user.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(10),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)

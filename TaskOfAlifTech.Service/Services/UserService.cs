@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using TaskOfAlifTech.Domain.Configurations;
 using TaskOfAlifTech.Domain.Entities.Users;
 using TaskOfAlifTech.Domain.Enums;
-using TaskOfAlifTech.Service.DTOs.UserForCreation;
+using TaskOfAlifTech.Service.DTOs.Users;
 using TaskOfAlifTech.Service.Exceptions;
 using TaskOfAlifTech.Service.Extensions;
 using TaskOfAlifTech.Service.Interfaces;
@@ -27,15 +23,19 @@ namespace TaskOfAlifTech.Service.Services
         public async Task<User> AddAsync(UserForCreationDto dto)
         {
             // check for exist
-            var user = await unitOfWork.Users.GetAsync(u => 
+            var anyUser = await unitOfWork.Users.AnyAsync(u => 
                 u.Login == dto.Login && u.State != ItemState.Deleted);
-            if (user is not null)
+            if (anyUser)
                 throw new AppException(400, "User already exist!");
-            
-            // map entity
-            var newUser = mapper.Map<User>(dto);
 
-            newUser = await unitOfWork.Users.CreateAsync(newUser);
+            // map entity
+            var newUser = await unitOfWork.Users.CreateAsync(mapper.Map<User>(dto));
+            await unitOfWork.SaveChangesAsync();
+
+            // creating user's wallet
+            var wallet = new Wallet() { Balance = 0, UserId = newUser.Id };
+
+            await unitOfWork.Wallets.CreateAsync(wallet);
             await unitOfWork.SaveChangesAsync();
 
             return newUser;
@@ -49,28 +49,33 @@ namespace TaskOfAlifTech.Service.Services
                 throw new AppException(404, "User not found!");
 
             user.State = ItemState.Deleted;
-            user.UpdatedAt = DateTime.Now;
+            user.UpdatedAt = DateTime.UtcNow;
+
+            unitOfWork.Users.Update(user);
 
             await unitOfWork.SaveChangesAsync();
 
             return true;
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync(PaginationParams @params, Expression<Func<User, bool>> expression = null)
+        public async Task<IEnumerable<User>> GetAllAsync(PaginationParams? @params, Expression<Func<User, bool>>? expression = null)
         {
-            var users = unitOfWork.Users.GetAllAsync(expression, isTracking: false);
+            var users = unitOfWork.Users.Where(expression, isTracking: false);
 
-            return await users.ToPagedList(@params).ToListAsync();
+            return users.Where(user => user.State != ItemState.Deleted).ToPagedList(@params);
         }
 
-        public async Task<User> GetAsync(Expression<Func<User, bool>> expression)
+        public async Task<UserViewDto> GetAsync(Expression<Func<User, bool>> expression)
         {
             // check for exist
             var user = await unitOfWork.Users.GetAsync(expression);
             if (user is null)
                 throw new AppException(404, "User not found");
 
-            return user;
+            var viewModel = mapper.Map<UserViewDto>(user);
+            viewModel.Wallets = unitOfWork.Wallets.Where(wallet => wallet.UserId == user.Id, isTracking: false);
+
+            return viewModel;
         }
 
         public async Task<User> UpdateAsync(long id, UserForCreationDto dto)
@@ -81,21 +86,20 @@ namespace TaskOfAlifTech.Service.Services
                 throw new AppException(404, "User not found");
 
             // check for already exist
-            var existUser = await unitOfWork.Users.GetAsync(u => 
-                u.Login.Equals(dto.Login) && u.State != ItemState.Deleted);
-            if (existUser is not null)
+            var existLogin = await unitOfWork.Users.AnyAsync(u =>
+                u.Login.Equals(dto.Login) && u.State != ItemState.Deleted && u.Id != id);
+            if (existLogin)
                 throw new AppException(404, "This login already exist");
 
-            var mappedUser = mapper.Map(dto, user);
+            user = mapper.Map(dto, user);
 
-            mappedUser.State = ItemState.Updated;
-            mappedUser.UpdatedAt = DateTime.UtcNow;
+            user.State = ItemState.Updated;
+            user.UpdatedAt = DateTime.UtcNow;
 
-            var updatedUser = await unitOfWork.Users.UpdateAsync(mappedUser);
-
+            user = unitOfWork.Users.Update(user);
             await unitOfWork.SaveChangesAsync();
                 
-            return updatedUser;
+            return user;
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using TaskOfAlifTech.Domain.Entities.Attachments;
-using TaskOfAlifTech.Domain.Entities.Users;
+﻿using TaskOfAlifTech.Domain.Entities.Users;
+using TaskOfAlifTech.Domain.Entities.Transactions;
 using TasOfAlifTech.Data.DbContexts;
 using TasOfAlifTech.Data.IRepositories;
 
@@ -11,6 +11,9 @@ namespace TasOfAlifTech.Data.Repositories
         public UnitOfWork(AppDbContext dbContext)
         {
             this.dbContext = dbContext;
+            Users = new GenericRepository<User>(dbContext);
+            Wallets = new GenericRepository<Wallet>(dbContext);
+            Transactions = new GenericRepository<Transaction>(dbContext);
         }
 
         /// <summary>
@@ -18,23 +21,17 @@ namespace TasOfAlifTech.Data.Repositories
         /// </summary>
         public IGenericRepository<User> Users { get; }
         public IGenericRepository<Wallet> Wallets { get; }
-        public IGenericRepository<Attachment> Attachments { get; }
+        public IGenericRepository<Transaction> Transactions { get; }
 
         /// <summary>
         /// Dispose object
         /// </summary>
-        public void Dispose()
-        {
-            GC.SuppressFinalize(dbContext);
-        }
+        public void Dispose() => GC.SuppressFinalize(dbContext);
 
         /// <summary>
         /// Save changes in ORM
         /// </summary>
         /// <returns></returns>
-        public async Task SaveChangesAsync()
-        {
-            await dbContext.SaveChangesAsync();
-        }
+        public Task SaveChangesAsync() => dbContext.SaveChangesAsync();
     }
 }
