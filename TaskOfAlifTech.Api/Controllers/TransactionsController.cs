@@ -94,7 +94,7 @@ public class TransactionsController : ControllerBase
     /// <returns></returns>
     [HttpPost("p2p")]
     public async Task<IActionResult> AddTransaction(TransactionForCreationDto dto) 
-        => Ok(await transactionService.AddAsync(dto));
+        => Ok(await transactionService.AddP2pAsync(dto));
 
 }
 

@@ -11,6 +11,7 @@ using TasOfAlifTech.Data.IRepositories;
 
 namespace TaskOfAlifTech.Service.Services
 {
+#pragma warning disable
     public class TransactionService : ITransactionService
     {
         private readonly IUnitOfWork unitOfWork;
@@ -24,7 +25,7 @@ namespace TaskOfAlifTech.Service.Services
         }
 
         /// <summary>
-        /// Create transaction p2p
+        /// Create transaction person to person
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>

@@ -6,6 +6,7 @@ using TaskOfAlifTech.Api.Middlewares;
 using TaskOfAlifTech.Service.Helpers;
 using TaskOfAlifTech.Service.Mappers;
 using TasOfAlifTech.Data.DbContexts;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
