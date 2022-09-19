@@ -28,6 +28,8 @@ namespace TaskOfAlifTech.Service.Services
             if (anyUser)
                 throw new AppException(400, "User already exist!");
 
+            dto.Password = StringExtension.PasswordHash(dto.Password);
+
             // map entity
             var newUser = await unitOfWork.Users.CreateAsync(mapper.Map<User>(dto));
             await unitOfWork.SaveChangesAsync();

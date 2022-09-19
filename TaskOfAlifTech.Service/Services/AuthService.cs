@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskOfAlifTech.Domain.Enums;
 using TaskOfAlifTech.Service.Exceptions;
+using TaskOfAlifTech.Service.Extensions;
 using TaskOfAlifTech.Service.Interfaces;
 using TasOfAlifTech.Data.IRepositories;
 
@@ -29,7 +30,7 @@ namespace TaskOfAlifTech.Service.Services
         public async Task<string> GenerateTokenAsync(string login, string password)
         {
             var user = await unitOfWork.Users.GetAsync(x =>
-                x.Login == login && x.Password == password && x.State != ItemState.Deleted);
+                x.Login == login && x.Password == StringExtension.PasswordHash(password) && x.State != ItemState.Deleted);
 
             if (user is null)
                 throw new AppException(400, "Login or password is incorrect");

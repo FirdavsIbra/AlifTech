@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TaskOfAlifTech.Domain.Configurations;
 using TaskOfAlifTech.Service.DTOs.Transactions;
 using TaskOfAlifTech.Service.Interfaces;
@@ -92,7 +93,7 @@ public class TransactionsController : ControllerBase
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [HttpPost("p2p")]
+    [HttpPost("p2p"), Authorize]
     public async Task<IActionResult> AddTransaction(TransactionForCreationDto dto) 
         => Ok(await transactionService.AddP2pAsync(dto));
 
